@@ -1,6 +1,5 @@
 const { createClient } = require('@supabase/supabase-js');
-const path = require('path');
-require('dotenv').config({ path: path.join(__dirname, '../.env') });
+// dotenv is loaded in server.js; no need to re-load here (fails on Vercel due to missing .env file)
 
 const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_KEY = process.env.SUPABASE_KEY;

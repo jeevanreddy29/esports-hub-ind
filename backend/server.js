@@ -1,14 +1,16 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 const dotenv = require('dotenv');
-const { initDB } = require('./db/database');
+
+// Load .env from the backend directory (works locally; on Vercel, env vars come from dashboard)
+dotenv.config({ path: path.join(__dirname, '.env') });
+
 const authRoutes = require('./routes/auth');
 const tournamentRoutes = require('./routes/tournaments');
 const chatRoutes = require('./routes/chat');
 const leaderboardRoutes = require('./routes/leaderboard');
 const notificationRoutes = require('./routes/notifications');
-
-dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
