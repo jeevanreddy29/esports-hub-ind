@@ -5,12 +5,19 @@ require('dotenv').config({ path: path.join(__dirname, '../.env') });
 const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_KEY = process.env.SUPABASE_KEY;
 
-if (!SUPABASE_URL || !SUPABASE_KEY) {
-  console.error("❌ Missing Supabase URL or Key in .env");
-  process.exit(1);
+let supabase;
+try {
+  if (!SUPABASE_URL || !SUPABASE_KEY) {
+    throw new Error("Missing SUPABASE_URL or SUPABASE_KEY environment variables.");
+  }
+  supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+} catch (error) {
+  console.error("❌ Supabase Initialization Error:", error.message);
+  // Create a dummy client that throws readable errors instead of crashing the Vercel cold start
+  supabase = {
+    from: () => { throw new Error("Database not connected. Please set SUPABASE_URL and SUPABASE_KEY in Vercel Environment Variables."); }
+  };
 }
-
-const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 async function initDB() {
   try {
