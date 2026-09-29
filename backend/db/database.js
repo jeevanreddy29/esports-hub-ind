@@ -1,4 +1,6 @@
 const { createClient } = require('@supabase/supabase-js');
+// Import ws for WebSocket support on Node.js 20
+const WebSocket = require('ws');
 // dotenv is loaded in server.js; no need to re-load here (fails on Vercel due to missing .env file)
 
 const SUPABASE_URL = process.env.SUPABASE_URL;
@@ -9,7 +11,13 @@ try {
   if (!SUPABASE_URL || !SUPABASE_KEY) {
     throw new Error("Missing SUPABASE_URL or SUPABASE_KEY environment variables.");
   }
-  supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  // Create Supabase client with WebSocket transport for Node.js 20 compatibility
+  supabase = createClient(SUPABASE_URL, SUPABASE_KEY, {
+    realtime: {
+      transport: WebSocket
+    }
+  });
 } catch (error) {
   console.error("❌ Supabase Initialization Error:", error.message);
   // Create a dummy client that throws readable errors instead of crashing the Vercel cold start
