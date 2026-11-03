@@ -69,20 +69,9 @@ export default function Signup() {
     <div className="auth-page">
       <div className="auth-bg" />
 
-      {['BGMI', 'Valorant', 'Free Fire Max', 'CS2', 'MLBB', 'Tekken 8', 'Pokemon Unite', 'Clash Royale'].map((game, i) => (
-        <div key={i} style={{
-          position: 'fixed',
-          top: `${8 + i * 11}%`,
-          left: i % 2 === 0 ? `${2 + i}%` : undefined,
-          right: i % 2 !== 0 ? `${2 + i}%` : undefined,
-          opacity: 0.15, animation: `float ${4 + i * 0.3}s ease-in-out ${i * 0.2}s infinite`,
-          pointerEvents: 'none', filter: 'grayscale(100%)',
-        }}>
-          <GameIcon game={game} size={28 + (i % 3) * 12} />
-        </div>
-      ))}
+      
 
-      <div className="auth-card shape-oval" style={{ 
+      <div className="auth-card " style={{ 
         position: 'relative', 
         zIndex: 2,
         padding: '50px 40px',
@@ -92,7 +81,7 @@ export default function Signup() {
       }}>
         <div style={{
           position: 'absolute', top: -1, left: '15%', right: '15%', height: 2,
-          background: 'linear-gradient(90deg, transparent, var(--cyan), var(--purple), transparent)',
+          background: 'linear-gradient(90deg, transparent, var(--gold), var(--gold-hover), transparent)',
           borderRadius: 100,
         }} />
 
@@ -145,18 +134,18 @@ export default function Signup() {
             <>
               <div className="form-group" style={{ marginBottom: 20 }}>
             <label className="form-label" htmlFor="sigup-name" style={{ marginLeft: 20, display: 'flex', alignItems: 'center', gap: 6 }}><FaUser style={{ fontSize: '0.8rem' }} /> Player Name</label>
-                <input id="sigup-name" name="name" className="form-input shape-pill" type="text" placeholder="Your combat alias" value={form.name}
+                <input id="sigup-name" name="name" className="form-input " type="text" placeholder="Your combat alias" value={form.name}
                   onChange={e => setForm(p => ({ ...p, name: e.target.value }))} style={{ paddingLeft: 28 }} />
               </div>
               <div className="form-group" style={{ marginBottom: 20 }}>
                 <label className="form-label" htmlFor="signup-email" style={{ marginLeft: 20, display: 'flex', alignItems: 'center', gap: 6 }}><FaEnvelope style={{ fontSize: '0.8rem' }} /> Email</label>
-                <input id="signup-email" name="email" className="form-input shape-pill" type="email" placeholder="Enter Email" value={form.email}
+                <input id="signup-email" name="email" className="form-input " type="email" placeholder="Enter Email" value={form.email}
                   onChange={e => setForm(p => ({ ...p, email: e.target.value }))} style={{ paddingLeft: 28 }} />
               </div>
               <div className="form-group" style={{ marginBottom: 20 }}>
                 <label className="form-label" style={{ marginLeft: 20, display: 'flex', alignItems: 'center', gap: 6 }}><FaLock style={{ fontSize: '0.8rem' }} /> Password</label>
                 <div style={{ position: 'relative' }}>
-                  <input id="signup-password" name="password" className="form-input shape-pill" type={show ? 'text' : 'password'} placeholder="Enter Password"
+                  <input id="signup-password" name="password" className="form-input " type={show ? 'text' : 'password'} placeholder="Enter Password"
                     value={form.password} onChange={e => setForm(p => ({ ...p, password: e.target.value }))} style={{ paddingLeft: 28, paddingRight: 56 }} />
                   <button type="button" onClick={() => setShow(s => !s)} style={{
                     position: 'absolute', right: 20, top: '50%', transform: 'translateY(-50%)',
@@ -166,7 +155,7 @@ export default function Signup() {
               </div>
               <div className="form-group" style={{ marginBottom: 32 }}>
                 <label className="form-label" style={{ marginLeft: 20, display: 'flex', alignItems: 'center', gap: 6 }}><FaLock style={{ fontSize: '0.8rem' }} /> Confirm Password</label>
-                <input className="form-input shape-pill" type="password" placeholder="Verify your password"
+                <input className="form-input " type="password" placeholder="Verify your password"
                   value={form.confirmPassword} onChange={e => setForm(p => ({ ...p, confirmPassword: e.target.value }))} style={{ paddingLeft: 28 }} />
               </div>
             </>
@@ -176,7 +165,7 @@ export default function Signup() {
             <>
               <div className="form-group" style={{ marginBottom: 28 }}>
                 <label className="form-label" style={{ marginLeft: 20, display: 'flex', alignItems: 'center', gap: 6 }}><FaMapMarkerAlt style={{ fontSize: '0.8rem' }} /> Combat Region</label>
-                <select className="form-select shape-pill" value={form.state} onChange={e => setForm(p => ({ ...p, state: e.target.value }))} required style={{ paddingLeft: 28 }}>
+                <select className="form-select " value={form.state} onChange={e => setForm(p => ({ ...p, state: e.target.value }))} required style={{ paddingLeft: 28 }}>
                   <option value="" disabled>-- Select your state --</option>
                   {INDIAN_STATES.filter(s => s !== '').map(s => <option key={s} value={s}>{s}</option>)}
                 </select>
@@ -185,7 +174,7 @@ export default function Signup() {
                 <label className="form-label" style={{ marginLeft: 20, display: 'flex', alignItems: 'center', gap: 6 }}><FaGamepad style={{ fontSize: '0.8rem' }} /> Specialized Games</label>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginTop: 8, padding: '0 8px' }}>
                   {GAMES_LIST.map(game => (
-                    <button key={game} type="button" onClick={() => toggleGame(game)} className="shape-pill" style={{
+                    <button key={game} type="button" onClick={() => toggleGame(game)} className="" style={{
                       padding: '10px 20px',
                       background: form.games.includes(game) ? 'linear-gradient(135deg, var(--purple), var(--cyan))' : 'rgba(255,255,255,0.04)',
                       border: `1px solid ${form.games.includes(game) ? 'transparent' : 'rgba(255,255,255,0.1)'}`,
@@ -204,7 +193,7 @@ export default function Signup() {
           {step === 2 && (
             <div style={{ textAlign: 'center', padding: '16px 0' }}>
               <div style={{ fontSize: '4rem', marginBottom: 24, display: 'flex', justifyContent: 'center', color: '#ffd60a' }} className="anim-bounce-in"><FaMedal /></div>
-              <div className="shape-oval" style={{ background: 'rgba(255,255,255,0.03)', padding: 32, border: '1px solid rgba(255,255,255,0.08)', textAlign: 'left' }}>
+              <div className="" style={{ background: 'rgba(255,255,255,0.03)', padding: 32, border: '1px solid rgba(255,255,255,0.08)', textAlign: 'left' }}>
                 <div style={{ display: 'flex', gap: 16, marginBottom: 14 }}>
                   <span style={{ color: 'var(--text-muted)', fontFamily: 'Rajdhani', fontSize: '0.9rem', width: 80, fontWeight: 700 }}>PLAYER</span>
                   <span style={{ fontFamily: 'Rajdhani', fontWeight: 800, fontSize: '1.1rem' }}>{form.name}</span>
@@ -225,11 +214,11 @@ export default function Signup() {
 
           <div style={{ display: 'flex', gap: 16, marginTop: 40 }}>
             {step > 0 && (
-              <button type="button" className="btn btn-secondary shape-pill" style={{ flex: 1, height: 52 }} onClick={() => setStep(s => s - 1)}>
+              <button type="button" className="btn btn-secondary " style={{ flex: 1, height: 52 }} onClick={() => setStep(s => s - 1)}>
                 ← REVISE
               </button>
             )}
-            <button type="submit" className="btn btn-primary btn-lg shape-pill" style={{ flex: 2, justifyContent: 'center', height: 56 }} disabled={loading}>
+            <button type="submit" className="btn btn-primary btn-lg " style={{ flex: 2, justifyContent: 'center', height: 56 }} disabled={loading}>
               {loading ? <><div className="loader" style={{ width: 20, height: 20, borderWidth: 2 }} /> DEPLOYING...</>
                 : step < 2 ? 'PROCEED →'
                   : 'READY FOR COMBAT'}

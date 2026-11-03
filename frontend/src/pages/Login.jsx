@@ -33,25 +33,9 @@ export default function Login() {
     <div className="auth-page">
       <div className="auth-bg" />
 
-      {/* Floating game icons */}
-      {['A', 'B', 'C', 'D', 'E', 'F'].map((char, i) => (
-        <div key={i} style={{
-          position: 'fixed',
-          width: `${20 + (i % 3) * 15}px`,
-          height: `${20 + (i % 3) * 15}px`,
-          borderRadius: '4px',
-          border: `1px solid rgba(0,243,255,${0.05 + i * 0.02})`,
-          top: `${10 + i * 14}%`,
-          left: i % 2 === 0 ? `${3 + i * 2}%` : undefined,
-          right: i % 2 !== 0 ? `${3 + i * 2}%` : undefined,
-          opacity: 0.2,
-          animation: `float ${3 + i * 0.4}s ease-in-out ${i * 0.3}s infinite`,
-          pointerEvents: 'none',
-          userSelect: 'none',
-        }} />
-      ))}
+      
 
-      <div className="auth-card shape-oval" style={{ 
+      <div className="auth-card " style={{ 
         position: 'relative', 
         zIndex: 2,
         padding: '50px 40px',
@@ -60,7 +44,7 @@ export default function Login() {
       }}>
         <div style={{
           position: 'absolute', top: -1, left: '20%', right: '20%', height: 2,
-          background: 'linear-gradient(90deg, transparent, var(--cyan), var(--purple), transparent)',
+          background: 'linear-gradient(90deg, transparent, var(--gold), var(--gold-hover), transparent)',
           borderRadius: 100,
         }} />
 
@@ -88,7 +72,7 @@ export default function Login() {
             <input
               id="login-identifier"
               name="username"
-              className="form-input shape-pill"
+              className="form-input "
               type="text"
               placeholder="Enter your email or player name"
               value={form.identifier}
@@ -104,7 +88,7 @@ export default function Login() {
               <input
                 id="login-password"
                 name="password"
-                className="form-input shape-pill"
+                className="form-input "
                 type={show ? 'text' : 'password'}
                 placeholder="Enter your password"
                 value={form.password}
@@ -118,7 +102,7 @@ export default function Login() {
             </div>
           </div>
 
-          <button type="submit" className="btn btn-primary btn-lg shape-pill" style={{ width: '100%', justifyContent: 'center', height: 56 }} disabled={loading}>
+          <button type="submit" className="btn btn-primary btn-lg " style={{ width: '100%', justifyContent: 'center', height: 56 }} disabled={loading}>
             {loading ? (
               <><div className="loader" style={{ width: 20, height: 20, borderWidth: 2 }} /> SECURING ACCESS...</>
             ) : 'ACCESS ARENA'}
@@ -131,7 +115,7 @@ export default function Login() {
           <button 
             type="button"
             onClick={() => toast.success('Google Auth coming soon! 🚀')}
-            className="btn shape-pill"
+            className="btn "
             style={{ 
               width: '100%', 
               background: 'rgba(255,255,255,0.05)', 

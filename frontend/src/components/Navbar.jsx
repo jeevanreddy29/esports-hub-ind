@@ -72,7 +72,7 @@ export default function Navbar() {
       <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
         <div className="navbar-inner">
           <Link to="/" className="navbar-logo">
-            <img src={logo} alt="India Esports Hub" style={{ height: '72px', width: 'auto', objectFit: 'contain' }} />
+            <img src={logo} alt="India Esports Hub" style={{ height: '46px', width: 'auto', objectFit: 'contain' }} />
           </Link>
 
           <div className="navbar-links">
@@ -95,7 +95,7 @@ export default function Navbar() {
                 <div style={{ position: 'relative' }}>
                   <div 
                     onClick={() => { setShowNotif(!showNotif); if (!showNotif) fetchNotifications(); }}
-                    style={{ position: 'relative', cursor: 'pointer', display: 'flex', alignItems: 'center', width: 44, height: 44, borderRadius: '50%', background: 'rgba(255,255,255,0.05)', justifyContent: 'center', border: showNotif ? '1px solid var(--cyan)' : '1px solid rgba(255,255,255,0.1)', transition: '0.3s' }}
+                    style={{ position: 'relative', cursor: 'pointer', display: 'flex', alignItems: 'center', width: 44, height: 44, borderRadius: '50%', background: 'rgba(255,255,255,0.05)', justifyContent: 'center', border: showNotif ? '1px solid var(--gold)' : '1px solid rgba(255,255,255,0.1)', transition: '0.3s' }}
                   >
                     <span style={{ fontSize: '1.1rem', display: 'flex', alignItems: 'center' }}>{unreadCount > 0 ? <FaBell /> : <FaBellSlash />}</span>
                     {unreadCount > 0 && (
@@ -118,7 +118,7 @@ export default function Navbar() {
                         initial={{ opacity: 0, y: 10, scale: 0.95 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                        className="glass-card shape-oval"
+                        className="glass-card "
                         style={{
                           position: 'absolute', top: 55, right: 0, width: 320,
                           padding: '24px', zIndex: 1000, boxShadow: '0 20px 40px rgba(0,0,0,0.6)',
@@ -140,14 +140,14 @@ export default function Navbar() {
                               <div 
                                 key={n._id || n.id}
                                 onClick={() => markRead(n._id || n.id)}
-                                className="shape-pill"
+                                className=""
                                 style={{ 
                                   padding: '12px 16px', background: n.is_read ? 'rgba(255,255,255,0.02)' : 'rgba(0,243,255,0.05)',
                                   border: n.is_read ? '1px solid rgba(255,255,255,0.05)' : '1px solid rgba(0,243,255,0.2)',
                                   cursor: 'pointer', transition: '0.3s', position: 'relative'
                                 }}
                               >
-                                {!n.is_read && <div style={{ position: 'absolute', left: 8, top: '50%', transform: 'translateY(-50%)', width: 6, height: 6, borderRadius: '50%', background: 'var(--cyan)' }} />}
+                                {!n.is_read && <div style={{ position: 'absolute', left: 8, top: '50%', transform: 'translateY(-50%)', width: 6, height: 6, borderRadius: '50%', background: 'var(--gold)' }} />}
                                 <div style={{ fontFamily: 'Rajdhani', fontWeight: 700, fontSize: '0.85rem', color: '#fff', marginLeft: 12 }}>{n.title}</div>
                                 <div style={{ fontFamily: 'Rajdhani', fontSize: '0.75rem', color: 'var(--text-muted)', marginLeft: 12, marginTop: 2 }}>{n.message}</div>
                               </div>
@@ -159,10 +159,10 @@ export default function Navbar() {
                   </AnimatePresence>
                 </div>
 
-                <Link to="/profile" className="btn btn-secondary btn-sm shape-pill" style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <Link to="/profile" className="btn btn-secondary btn-sm " style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                   <FaUser style={{ fontSize: '0.8rem' }} /> {user?.name ? user.name.split(' ')[0] : 'Player'}
                 </Link>
-                <button onClick={handleLogout} className="btn btn-sm shape-pill" style={{
+                <button onClick={handleLogout} className="btn btn-sm " style={{
                   background: 'rgba(255,45,120,0.15)',
                   color: 'var(--pink)',
                   border: '1px solid rgba(255,45,120,0.3)',
@@ -173,8 +173,8 @@ export default function Navbar() {
               </>
             ) : (
               <>
-                <Link to="/login" className="btn btn-secondary btn-sm shape-pill">Login</Link>
-                <Link to="/signup" className="btn btn-primary btn-sm shape-pill">Join Now</Link>
+                <Link to="/login" className="btn btn-secondary btn-sm ">Login</Link>
+                <Link to="/signup" className="btn btn-primary btn-sm ">Join Now</Link>
               </>
             )}
             <button className="hamburger" onClick={() => setMobileOpen(true)} aria-label="Open menu">&#9776;</button>

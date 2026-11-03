@@ -14,90 +14,130 @@ const STATUSES = ['all', 'live', 'upcoming', 'past'];
 function TournamentCard({ t, isSkeleton }) {
   if (isSkeleton) {
     return (
-      <div className="glass-card shape-oval" style={{ overflow: 'hidden', padding: 24 }}>
-        <div className="skeleton shape-circle" style={{ width: 50, height: 50, marginBottom: 12 }} />
-        <Skeleton width="70%" height="22px" className="mb-2" />
-        <Skeleton width="40%" height="16px" className="mb-4" />
-        <Skeleton height="44px" borderRadius="999px" />
+      <div className="glass-card" style={{ padding: 22 }}>
+        <div className="skeleton" style={{ width: 44, height: 44, marginBottom: 14 }} />
+        <Skeleton width="75%" height="20px" className="mb-2" />
+        <Skeleton width="45%" height="15px" className="mb-4" />
+        <Skeleton height="40px" borderRadius="8px" />
       </div>
     );
   }
 
   const pct = t.slots > 0 ? Math.round((t.slots_filled / t.slots) * 100) : 0;
-  const accentColor = t.banner_color || '#7b2fff';
+  const isAlmostFull = pct >= 85;
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 24 }}
+      initial={{ opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.4 }}
-      whileHover={{ y: -8, transition: { duration: 0.2 } }}
+      transition={{ duration: 0.35 }}
+      whileHover={{ y: -5, transition: { duration: 0.2 } }}
       style={{ height: '100%' }}
     >
       <Link to={`/tournaments/${t._id || t.id}`} style={{ display: 'block', height: '100%' }}>
-        <div className="glass-card shape-oval" style={{
-          height: '100%', overflow: 'hidden',
-          position: 'relative', display: 'flex', flexDirection: 'column',
-          transition: 'all 0.4s ease',
+        <div className="glass-card" style={{
+          height: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          padding: '22px 24px',
+          background: 'var(--bg-card)',
+          border: '1px solid var(--border-card)',
+          position: 'relative',
+          overflow: 'hidden'
         }}>
-          {/* Top accent bar - pill style */}
-          <div style={{ height: 6, width: '40%', margin: '0 auto', background: `linear-gradient(90deg, transparent, ${accentColor}, transparent)`, borderRadius: '0 0 100px 100px' }} />
-          
-          <div style={{ padding: '24px 26px', flex: 1, display: 'flex', flexDirection: 'column' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16 }}>
-              <div className="shape-soft-hex" style={{ width: 52, height: 52, background: `${accentColor}22`, border: `1px solid ${accentColor}44`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <GameIcon game={t.game} size={28} />
-              </div>
-              <div style={{ display: 'flex', gap: 8 }}>
-                {t.status === 'live' ? (
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '6px 14px', borderRadius: 999, background: 'rgba(255,45,120,0.15)', border: '1px solid rgba(255,45,120,0.5)', fontFamily: 'Rajdhani', fontWeight: 800, fontSize: '0.75rem', color: '#ff2d78' }}>LIVE</div>
-                ) : (
-                  <div style={{ padding: '6px 14px', borderRadius: 999, background: 'rgba(0,243,255,0.08)', border: '1px solid rgba(0,243,255,0.25)', fontFamily: 'Rajdhani', fontWeight: 700, fontSize: '0.75rem', color: 'var(--cyan)' }}>UPCOMING</div>
-                )}
-              </div>
-            </div>
+          {/* Subtle top indicator */}
+          <div style={{
+            position: 'absolute', top: 0, left: 0, right: 0, height: 3,
+            background: t.status === 'live' 
+              ? 'linear-gradient(90deg, #ef4444, #f5a623)' 
+              : 'linear-gradient(90deg, #f5a623, #00d2ff)'
+          }} />
 
-            <div style={{ fontFamily: 'Orbitron', fontWeight: 900, fontSize: '1.25rem', lineHeight: 1.2, marginBottom: 8, color: '#fff', letterSpacing: '-0.02em' }}>{t.title}</div>
-            <div style={{ fontFamily: 'Rajdhani', fontWeight: 700, fontSize: '0.8rem', color: accentColor, marginBottom: 20, textTransform: 'uppercase', letterSpacing: '0.1em', opacity: 0.9 }}>{t.game} • {t.format || 'SQUAD'}</div>
-            
-            <div style={{ padding: '16px 20px', borderRadius: 16, marginBottom: 20, background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <div>
-                <div style={{ fontSize: '0.6rem', color: 'var(--text-muted)', fontFamily: 'Rajdhani', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: 4 }}>Prize Pool</div>
-                <div style={{ fontFamily: 'Orbitron', fontWeight: 900, fontSize: '1.1rem', color: '#ffd60a', textShadow: '0 0 10px rgba(255,214,10,0.3)' }}>{t.prize_pool}</div>
-              </div>
-              <div style={{ textAlign: 'right' }}>
-                <div style={{ fontSize: '0.6rem', color: 'var(--text-muted)', fontFamily: 'Rajdhani', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: 4 }}>Region</div>
-                <div style={{ fontFamily: 'Rajdhani', fontWeight: 900, fontSize: '1.1rem', color: '#fff' }}>{t.location}</div>
-              </div>
-            </div>
-
-            <div style={{ marginBottom: 20 }}>
-              <CountdownTimer targetDate={t.start_date} status={t.status} />
-            </div>
-
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-              <span style={{ fontSize: '0.7rem', fontFamily: 'Rajdhani', fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>REGISTRATION STATUS</span>
-              <div style={{ padding: '4px 12px', borderRadius: 100, background: 'rgba(16,185,129,0.1)', border: '1px solid rgba(16,185,129,0.3)', color: 'var(--green)', fontSize: '0.65rem', fontFamily: 'Rajdhani', fontWeight: 800 }}>
-                {t.status === 'past' ? 'CLOSED' : 'OPEN'}
-              </div>
-            </div>
-
-            <div className="shape-pill" style={{ 
-              marginTop: 'auto', 
-              padding: '14px 20px', 
-              textAlign: 'center', 
-              fontFamily: 'Orbitron', 
-              fontWeight: 900, 
-              fontSize: '0.85rem', 
-              background: `linear-gradient(135deg, ${accentColor}, ${accentColor}aa)`, 
-              color: '#fff', 
-              boxShadow: `0 8px 24px ${accentColor}30`,
-              letterSpacing: '0.1em',
-              textTransform: 'uppercase'
+          {/* Header Row */}
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+            <div style={{
+              width: 44, height: 44,
+              borderRadius: 'var(--radius)',
+              background: 'rgba(255,255,255,0.04)',
+              border: '1px solid var(--border-subtle)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center'
             }}>
-              {t.status === 'past' ? 'View Results' : 'Secure Entry'}
+              <GameIcon game={t.game} size={26} />
             </div>
+
+            {t.status === 'live' ? (
+              <span className="badge badge-live">LIVE NOW</span>
+            ) : (
+              <span className="badge badge-upcoming">UPCOMING</span>
+            )}
+          </div>
+
+          {/* Title & Game */}
+          <h3 style={{
+            fontFamily: 'Orbitron',
+            fontWeight: 800,
+            fontSize: '1.15rem',
+            color: '#fff',
+            lineHeight: 1.3,
+            marginBottom: 6
+          }}>
+            {t.title}
+          </h3>
+          <div style={{
+            fontFamily: 'Rajdhani',
+            fontWeight: 700,
+            fontSize: '0.85rem',
+            color: 'var(--gold)',
+            textTransform: 'uppercase',
+            letterSpacing: '0.08em',
+            marginBottom: 18
+          }}>
+            {t.game} • {t.format || 'SQUAD'}
+          </div>
+
+          {/* Stats Box */}
+          <div style={{
+            background: 'var(--bg-tertiary)',
+            border: '1px solid var(--border-subtle)',
+            borderRadius: 'var(--radius)',
+            padding: '14px 16px',
+            marginBottom: 18,
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center'
+          }}>
+            <div>
+              <div style={{ fontSize: '0.65rem', color: 'var(--text-muted)', fontFamily: 'Rajdhani', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em' }}>
+                Prize Pool
+              </div>
+              <div style={{ fontFamily: 'Orbitron', fontWeight: 900, fontSize: '1.15rem', color: 'var(--gold)' }}>
+                {t.prize_pool}
+              </div>
+            </div>
+
+            <div style={{ textAlign: 'right' }}>
+              <div style={{ fontSize: '0.65rem', color: 'var(--text-muted)', fontFamily: 'Rajdhani', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em' }}>
+                Slots
+              </div>
+              <div style={{ fontFamily: 'Rajdhani', fontWeight: 800, fontSize: '1.05rem', color: isAlmostFull ? '#ef4444' : '#fff' }}>
+                {t.slots_filled} / {t.slots}
+              </div>
+            </div>
+          </div>
+
+          {/* Countdown Timer */}
+          <div style={{ marginBottom: 18 }}>
+            <CountdownTimer targetDate={t.start_date} status={t.status} />
+          </div>
+
+          {/* Action Button */}
+          <div className="btn btn-primary" style={{
+            width: '100%',
+            marginTop: 'auto',
+            textAlign: 'center'
+          }}>
+            {t.status === 'past' ? 'View Results' : 'View Tournament Details →'}
           </div>
         </div>
       </Link>

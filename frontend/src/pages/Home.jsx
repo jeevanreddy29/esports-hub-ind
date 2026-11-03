@@ -156,86 +156,134 @@ const TOP_CLANS = [
   { name: 'Team Mayavi', tag: 'MYVI', game: 'Free Fire', wins: 33, color: '#10B981' },
 ];
 
-/* ─────────────── TOURNAMENT CARD ─────────────── */
+/* ─────────────── TOURNAMENT CARD (OPTION A: FACEIT STYLE) ─────────────── */
 function TournamentCard({ t, isSkeleton }) {
   if (isSkeleton) {
     return (
-      <div className="glass-card shape-oval" style={{ overflow: 'hidden', padding: 24 }}>
-        <div className="skeleton shape-circle" style={{ width: 50, height: 50, marginBottom: 12 }} />
-        <Skeleton width="70%" height="22px" className="mb-2" />
-        <Skeleton width="40%" height="16px" className="mb-4" />
-        <Skeleton height="44px" borderRadius="999px" />
+      <div className="glass-card" style={{ padding: 20 }}>
+        <div className="skeleton" style={{ width: 44, height: 44, marginBottom: 14 }} />
+        <Skeleton width="75%" height="20px" className="mb-2" />
+        <Skeleton width="45%" height="15px" className="mb-4" />
+        <Skeleton height="40px" borderRadius="8px" />
       </div>
     );
   }
 
   const pct = t.slots > 0 ? Math.round((t.slots_filled / t.slots) * 100) : 0;
   const isAlmostFull = pct >= 85;
-  const accentColor = t.banner_color || '#7b2fff';
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.4 }}
-      whileHover={{ y: -8, transition: { duration: 0.2 } }}
+      transition={{ duration: 0.35 }}
+      whileHover={{ y: -5, transition: { duration: 0.2 } }}
       style={{ height: '100%' }}
     >
       <Link to={`/tournaments/${t._id || t.id}`} style={{ display: 'block', height: '100%' }}>
-        <div className="glass-card shape-oval" style={{
-          height: '100%', overflow: 'hidden',
-          position: 'relative', display: 'flex', flexDirection: 'column',
-          transition: 'all 0.3s ease',
+        <div className="glass-card" style={{
+          height: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          padding: '22px 24px',
+          background: 'var(--bg-card)',
+          border: '1px solid var(--border-card)',
+          position: 'relative',
+          overflow: 'hidden'
         }}>
-          <div style={{ height: 6, width: '60%', margin: '0 auto', flexShrink: 0, background: `linear-gradient(90deg, transparent, ${accentColor}, transparent)`, borderRadius: '0 0 100px 100px' }} />
-          <div style={{ padding: '24px 26px', flex: 1, display: 'flex', flexDirection: 'column' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16 }}>
-              <div className="shape-soft-hex" style={{ width: 52, height: 52, background: `${accentColor}22`, border: `1px solid ${accentColor}44`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <GameIcon game={t.game} size={28} />
-              </div>
-              {t.status === 'live' ? (
-                <div style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '6px 14px', borderRadius: 999, background: 'rgba(255,45,120,0.15)', border: '1px solid rgba(255,45,120,0.5)', fontFamily: 'Rajdhani', fontWeight: 800, fontSize: '0.75rem', color: '#ff2d78', letterSpacing: '0.08em' }}>
-                  <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#ff2d78', animation: 'live-pulse 1s ease-in-out infinite', display: 'inline-block' }} />
-                  LIVE
-                </div>
-              ) : (
-                <div style={{ padding: '6px 14px', borderRadius: 999, background: 'rgba(0,243,255,0.08)', border: '1px solid rgba(0,243,255,0.25)', fontFamily: 'Rajdhani', fontWeight: 700, fontSize: '0.75rem', color: 'var(--cyan)' }}>UPCOMING</div>
-              )}
-            </div>
-            <div style={{ fontFamily: 'Orbitron', fontWeight: 900, fontSize: '1.25rem', lineHeight: 1.2, marginBottom: 8, color: '#fff', letterSpacing: '-0.02em' }}>{t.title}</div>
-            <div style={{ fontFamily: 'Rajdhani', fontWeight: 700, fontSize: '0.8rem', color: accentColor, marginBottom: 20, textTransform: 'uppercase', letterSpacing: '0.1em', opacity: 0.9 }}>{t.game}</div>
-            
-            <div style={{ padding: '16px 20px', borderRadius: 16, marginBottom: 20, background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <div>
-                <div style={{ fontSize: '0.6rem', color: 'var(--text-muted)', fontFamily: 'Rajdhani', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: 4 }}>Prize Pool</div>
-                <div style={{ fontFamily: 'Orbitron', fontWeight: 900, fontSize: '1.1rem', color: '#ffd60a', textShadow: '0 0 10px rgba(255,214,10,0.3)' }}>{t.prize_pool}</div>
-              </div>
-              <div style={{ textAlign: 'right' }}>
-                <div style={{ fontSize: '0.6rem', color: 'var(--text-muted)', fontFamily: 'Rajdhani', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: 4 }}>Participants</div>
-                <div style={{ fontFamily: 'Rajdhani', fontWeight: 900, fontSize: '1.1rem', color: isAlmostFull ? 'var(--pink)' : '#fff' }}>{t.slots_filled} / {t.slots}</div>
-              </div>
-            </div>
+          {/* Subtle top indicator */}
+          <div style={{
+            position: 'absolute', top: 0, left: 0, right: 0, height: 3,
+            background: t.status === 'live' 
+              ? 'linear-gradient(90deg, #ef4444, #f5a623)' 
+              : 'linear-gradient(90deg, #f5a623, #00d2ff)'
+          }} />
 
-            <div style={{ marginBottom: 20, padding: '0 4px' }}>
-              <CountdownTimer targetDate={t.start_date} status={t.status} />
-            </div>
-
-            <div className="shape-pill" style={{ 
-              marginTop: 'auto', 
-              padding: '14px 20px', 
-              textAlign: 'center', 
-              fontFamily: 'Orbitron', 
-              fontWeight: 900, 
-              fontSize: '0.85rem', 
-              background: `linear-gradient(135deg, ${accentColor}, ${accentColor}aa)`, 
-              color: '#fff', 
-              boxShadow: `0 8px 24px ${accentColor}40`, 
-              letterSpacing: '0.1em',
-              textTransform: 'uppercase'
+          {/* Header Row */}
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+            <div style={{
+              width: 44, height: 44,
+              borderRadius: 'var(--radius)',
+              background: 'rgba(255,255,255,0.04)',
+              border: '1px solid var(--border-subtle)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center'
             }}>
-              {t.status === 'live' ? 'Enter Arena' : 'Secure Your Slot →'}
+              <GameIcon game={t.game} size={26} />
             </div>
+
+            {t.status === 'live' ? (
+              <span className="badge badge-live">LIVE NOW</span>
+            ) : (
+              <span className="badge badge-upcoming">UPCOMING</span>
+            )}
+          </div>
+
+          {/* Title & Game */}
+          <h3 style={{
+            fontFamily: 'Orbitron',
+            fontWeight: 800,
+            fontSize: '1.15rem',
+            color: '#fff',
+            lineHeight: 1.3,
+            marginBottom: 6
+          }}>
+            {t.title}
+          </h3>
+          <div style={{
+            fontFamily: 'Rajdhani',
+            fontWeight: 700,
+            fontSize: '0.85rem',
+            color: 'var(--gold)',
+            textTransform: 'uppercase',
+            letterSpacing: '0.08em',
+            marginBottom: 18
+          }}>
+            {t.game} • {t.organizer || 'Official Circuit'}
+          </div>
+
+          {/* Stats Box */}
+          <div style={{
+            background: 'var(--bg-tertiary)',
+            border: '1px solid var(--border-subtle)',
+            borderRadius: 'var(--radius)',
+            padding: '14px 16px',
+            marginBottom: 18,
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center'
+          }}>
+            <div>
+              <div style={{ fontSize: '0.65rem', color: 'var(--text-muted)', fontFamily: 'Rajdhani', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em' }}>
+                Prize Pool
+              </div>
+              <div style={{ fontFamily: 'Orbitron', fontWeight: 900, fontSize: '1.15rem', color: 'var(--gold)' }}>
+                {t.prize_pool}
+              </div>
+            </div>
+
+            <div style={{ textAlign: 'right' }}>
+              <div style={{ fontSize: '0.65rem', color: 'var(--text-muted)', fontFamily: 'Rajdhani', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em' }}>
+                Slots
+              </div>
+              <div style={{ fontFamily: 'Rajdhani', fontWeight: 800, fontSize: '1.05rem', color: isAlmostFull ? '#ef4444' : '#fff' }}>
+                {t.slots_filled} / {t.slots}
+              </div>
+            </div>
+          </div>
+
+          {/* Countdown Timer */}
+          <div style={{ marginBottom: 18 }}>
+            <CountdownTimer targetDate={t.start_date} status={t.status} />
+          </div>
+
+          {/* Action Button */}
+          <div className="btn btn-primary" style={{
+            width: '100%',
+            marginTop: 'auto',
+            textAlign: 'center'
+          }}>
+            {t.status === 'live' ? 'Enter Match Arena' : 'View Tournament Details →'}
           </div>
         </div>
       </Link>
@@ -362,27 +410,54 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Hero Visual */}
-            <div style={{ textAlign: 'center', position: 'relative', marginTop: -180, transform: 'scale(1.2)' }} className="anim-slide-right delay-300 hero-visual-container">
-              <div style={{
-                width: 'min(360px, 80vw)', height: 'min(360px, 80vw)',
-                borderRadius: '50%',
-                background: 'radial-gradient(circle, rgba(123,47,255,0.2) 0%, rgba(0,243,255,0.1) 50%, transparent 70%)',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                margin: '0 auto', position: 'relative',
-              }} className="anim-float">
-                <img src={logo} alt="India Esports Hub" style={{ width: '75%', filter: 'drop-shadow(0 0 40px rgba(0,243,255,0.5))' }} />
-                {['BGMI', 'Valorant', 'MLBB', 'Free Fire Max'].map((game, i) => (
-                  <div key={i} style={{
-                    position: 'absolute', width: 50, height: 50, borderRadius: 14,
-                    background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    backdropFilter: 'blur(10px)',
-                    top: `${[10, 10, 75, 75][i]}%`, left: `${[5, 75, 5, 75][i]}%`,
-                    animation: `float ${2.5 + i * 0.4}s ease-in-out ${i * 0.3}s infinite`,
-                    boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
-                  }}><GameIcon game={game} size={28} /></div>
-                ))}
+            {/* Hero Visual: Option A Faceit Spotlight Card */}
+            <div className="anim-slide-right delay-300 hero-visual-container" style={{ width: '100%', maxWidth: 440, margin: '0 auto' }}>
+              <div className="glass-card" style={{
+                background: 'var(--bg-card)',
+                border: '1px solid var(--gold-border)',
+                borderRadius: 'var(--radius-lg)',
+                padding: '28px',
+                boxShadow: '0 20px 50px rgba(0,0,0,0.8), 0 0 30px rgba(245, 166, 35, 0.15)',
+                position: 'relative'
+              }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#ef4444', animation: 'live-pulse 1s infinite' }} />
+                    <span style={{ fontFamily: 'Rajdhani', fontWeight: 800, fontSize: '0.8rem', color: '#ef4444', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                      FEATURED TOURNAMENT
+                    </span>
+                  </div>
+                  <span style={{ background: 'var(--gold-dim)', color: 'var(--gold)', border: '1px solid var(--gold-border)', padding: '2px 8px', borderRadius: 4, fontFamily: 'Rajdhani', fontWeight: 800, fontSize: '0.75rem' }}>
+                    TIER 1 PRO
+                  </span>
+                </div>
+
+                <h3 style={{ fontFamily: 'Orbitron', fontWeight: 900, fontSize: '1.35rem', color: '#fff', marginBottom: 8 }}>
+                  BMPS 2026 Pro Series
+                </h3>
+                <div style={{ fontFamily: 'Rajdhani', fontWeight: 700, fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: 20 }}>
+                  KRAFTON Official • 64 Elite Invited Squads
+                </div>
+
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 20 }}>
+                  <div style={{ background: 'var(--bg-tertiary)', padding: '12px 14px', borderRadius: 8, border: '1px solid var(--border-subtle)' }}>
+                    <div style={{ fontSize: '0.65rem', color: 'var(--text-muted)', fontFamily: 'Rajdhani', fontWeight: 700, textTransform: 'uppercase' }}>Prize Pool</div>
+                    <div style={{ fontFamily: 'Orbitron', fontWeight: 900, fontSize: '1.2rem', color: 'var(--gold)' }}>₹2,00,00,000</div>
+                  </div>
+                  <div style={{ background: 'var(--bg-tertiary)', padding: '12px 14px', borderRadius: 8, border: '1px solid var(--border-subtle)' }}>
+                    <div style={{ fontSize: '0.65rem', color: 'var(--text-muted)', fontFamily: 'Rajdhani', fontWeight: 700, textTransform: 'uppercase' }}>Region</div>
+                    <div style={{ fontFamily: 'Rajdhani', fontWeight: 800, fontSize: '1.1rem', color: '#fff' }}>All India Finals</div>
+                  </div>
+                </div>
+
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 14px', background: 'rgba(255,255,255,0.02)', borderRadius: 8, border: '1px solid var(--border-subtle)', marginBottom: 20 }}>
+                  <span style={{ fontFamily: 'Rajdhani', fontWeight: 700, fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Status: Group Stages Live</span>
+                  <span style={{ fontFamily: 'Rajdhani', fontWeight: 800, fontSize: '0.85rem', color: '#10b981' }}>64 / 64 Teams</span>
+                </div>
+
+                <Link to="/tournaments" className="btn btn-primary" style={{ width: '100%', textAlign: 'center' }}>
+                  Explore All Competitions →
+                </Link>
               </div>
             </div>
           </div>

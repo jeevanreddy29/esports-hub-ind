@@ -32,16 +32,25 @@ app.use((req, res, next) => {
 // Removed initDB() from here. It should be run manually via 'node backend/db/database.js'
 // to prevent wiping the database and timing out Vercel serverless functions on cold start.
 
-// Routes
+// Routes (supports both /api/path and /path for Vercel serverless function compatibility)
 app.use('/api/auth', authRoutes);
+app.use('/auth', authRoutes);
+
 app.use('/api/tournaments', tournamentRoutes);
+app.use('/tournaments', tournamentRoutes);
+
 app.use('/api/chat', chatRoutes);
+app.use('/chat', chatRoutes);
+
 app.use('/api/leaderboard', leaderboardRoutes);
+app.use('/leaderboard', leaderboardRoutes);
+
 app.use('/api/notifications', notificationRoutes);
+app.use('/notifications', notificationRoutes);
 
 // Health check
-app.get('/api/health', (req, res) => {
-  res.json({ status: 'OK', message: 'Esports Hub India Backend Running!' });
+app.get(['/api/health', '/health'], (req, res) => {
+  res.json({ status: 'OK', message: 'Esports Hub India Backend Running!', timestamp: new Date().toISOString() });
 });
 
 // Local server start (not used in Vercel serverless)
